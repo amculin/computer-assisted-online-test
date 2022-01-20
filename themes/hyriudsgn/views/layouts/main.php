@@ -1,9 +1,10 @@
 <?php
 
-use app\assets\MainAsset;
+use app\assets\PublicPageAsset;
 use yii\helpers\Html;
+use yii\web\View;
 
-MainAsset::register($this);
+PublicPageAsset::register($this);
 
 $this->beginPage();
 ?>
@@ -52,6 +53,7 @@ $this->beginPage();
     <meta name="theme-color" content="#ffffff" />
     <!-- ****** end favicons ****** -->
 
+    <title><?= Html::encode($this->title) ?></title>
     <?php $this->head(); ?>
 </head>
 <body>
@@ -71,5 +73,12 @@ $this->beginPage();
     </div>
     <?php $this->endBody() ?>
 </body>
+<?php
+$this->registerJs(
+    "$('p.help-block').addClass('text-danger font-weight-normal');",
+    View::POS_READY,
+    'error-handler'
+);
+?>
 </html>
 <?php $this->endPage() ?>

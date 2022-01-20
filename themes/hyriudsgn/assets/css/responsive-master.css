@@ -603,7 +603,6 @@
 	.address{
 		flex-direction: column;
 	}
-	.address-desc{}
 	.address-action{
 		width: 100%;
 		justify-content: flex-end;

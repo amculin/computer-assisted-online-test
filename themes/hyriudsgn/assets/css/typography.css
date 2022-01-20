@@ -34,21 +34,21 @@ figure{
 /* =HYPERLINK
 ------------------------------------------------------------ */
 a{
-	color: #01449f;
+	color: #f98341;
 	transition: all 0.3s ease;
 	-webkit-transition: all 0.3s ease;
 	-moz-transition: all 0.3s ease;
 }
 a:link {
-	color: #01449f; 
+	color: #f98341; 
 	text-decoration: none;
 }
 a:visited {
-	color: #01449f; 
+	color: #f98341; 
 	text-decoration: none;
 }
 a:hover {
-	color: #6E87C0;
+	color: #F15907;
 	text-decoration: none;
 	transition: all 0.3s ease;
 	-webkit-transition: all 0.3s ease;
@@ -85,15 +85,6 @@ a:focus{
 .bg-clr-red{
 	background-color: #c32c0e;
 }
-.bg-clr-brown{
-	background-color: #A52A2A;
-}
-.bg-clr-orange{
-	background-color: #FFA500;
-}
-.bg-clr-green{
-	background-color: #9ACD32;
-}
 
 /* =TITLE
 -------------------------------------------------------------*/
@@ -109,41 +100,45 @@ a:focus{
 	position: relative;
 	width: 100%;
 }
+.title-page-box p{
+	font-size: 16px;
+	margin: 0;
+}
 
 /*Title Primary*/
 .title-primary {
 	position: relative;
 }
 .title-primary h1 {
-	font-size: 40px;
-	color: #000000;
-	font-weight: 600;
+	font-size: 24px;
+	color: #f98341;
+	font-weight: 700;
 }
 .title-primary h2 {
-	font-size: 32px;
-	color: #000000;
-	font-weight: 600;
+	font-size: 24px;
+	color: #f98341;
+	font-weight: 700;
 }
 .title-primary h3 {
-	font-size: 24px;
-	color: #000000;
+	font-size: 20px;
+	color: #f98341;
 	font-weight: 600;
 }
 .title-primary h4 {
-	font-size: 18px;
-	color: #000000;
+	font-size: 16px;
+	color: #f98341;
 	font-weight: 600;
 }
 
 /*Title Secondary*/
 .title-secondary h3 {
 	font-size: 24px;
-	color: #000000;
+	color: #111111;
 	font-weight: 600;
 }
 .title-secondary h4 {
 	font-size: 18px;
-	color: #000000;
+	color: #111111;
 	font-weight: 600;
 }
 
@@ -172,9 +167,9 @@ a:focus{
 .lines {
 	position: relative;
 	display: block;
-	margin: 15px auto 15px 0;
+	margin: 10px auto 15px 0;
 	width: 50px;
-	border-bottom: 2px solid #333333;
+	border-bottom: 2px solid #f98341;
 	z-index: 1;
 }
 .text-center .lines {
@@ -242,25 +237,25 @@ a:focus{
 
 /*list with icon*/
 .list-mjk-icon {
-    padding: 0;
-    margin: 0;
-    list-style: none;
+	padding: 0;
+	margin: 0;
+	list-style: none;
 }
 .list-mjk-icon-item {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: flex-start;
-    margin-bottom: 5px;
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: flex-start;
+	margin-bottom: 5px;
 }
 .list-mjk-icon-item-img i {
-    font-size: 16px;
-    line-height: 25px;
-    min-width: 25px;
-    min-height: 25px;
+	font-size: 16px;
+	line-height: 25px;
+	min-width: 25px;
+	min-height: 25px;
 }
 .list-mjk-icon-item p {
-    margin-bottom: 0;
+	margin-bottom: 0;
 }
 /*list with icon custom style*/
 .list-style-icon {

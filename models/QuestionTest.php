@@ -57,14 +57,27 @@ class QuestionTest extends BaseQuestionTest
                 $answer = new QuestionAnswer();
                 $answer->question_test_id = $this->id;
                 $answer->answer = $this->answers[$i];
-                $answer->is_correct = $this->is_correct_answer == $i ? QuestionAnswer::IS_CORRECT : QuestionAnswer::IS_INCORRECT;
+
+                if ($this->subTestClass->testClass->type != TestClass::PERSONALITY_TEST)
+                    $answer->is_correct = $this->is_correct_answer == $i ? QuestionAnswer::IS_CORRECT : QuestionAnswer::IS_INCORRECT;
+                else
+                    $answer->is_correct = $this->is_correct_answer[$i];
+
                 $answer->save();
             }
         } else {
+            $i = 0;
             foreach ($this->questionAnswers as $key => $val) {
                 $val->answer = $this->answers[$key];
-                $val->is_correct = $this->is_correct_answer == $val->id ? QuestionAnswer::IS_CORRECT : QuestionAnswer::IS_INCORRECT;
+                //$val->is_correct = $this->is_correct_answer == $val->id ? QuestionAnswer::IS_CORRECT : QuestionAnswer::IS_INCORRECT;
+                
+                if ($this->subTestClass->testClass->type != TestClass::PERSONALITY_TEST)
+                    $val->is_correct = $this->is_correct_answer == $val->id ? QuestionAnswer::IS_CORRECT : QuestionAnswer::IS_INCORRECT;
+                else
+                    $val->is_correct = $this->is_correct_answer[$i];
+
                 $val->save();
+                $i++;
             }
         }
     }

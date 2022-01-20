@@ -45,9 +45,9 @@ use yii\bootstrap\ActiveForm;
                                     if (strlen($model->description) > 50) {
                                         $stringCut = substr($model->description, 0, 50);
 
-                                        return substr($stringCut, 0, strrpos($stringCut, ' ')).' ...'; 
+                                        return strip_tags(substr($stringCut, 0, strrpos($stringCut, ' '))).' ...'; 
                                     } else
-                                        return $model->description;
+                                        return strip_tags($model->description);
                                 }
                             ],
                             [
@@ -57,9 +57,9 @@ use yii\bootstrap\ActiveForm;
                                     if (strlen($model->question) > 50) {
                                         $stringCut = substr($model->question, 0, 50);
 
-                                        return substr($stringCut, 0, strrpos($stringCut, ' ')).' ...'; 
+                                        return strip_tags(substr($stringCut, 0, strrpos($stringCut, ' '))).' ...'; 
                                     } else
-                                        return $model->question;
+                                        return strip_tags($model->question);
                                 }
                             ],
                             [
@@ -132,12 +132,14 @@ use yii\bootstrap\ActiveForm;
                                 </div>"
                             ])->textArea(['maxlength' => true, 'rows' => 4]);
 
+                            $label = ['A', 'B', 'C', 'D', 'E'];
                             for ($i = 0; $i < 5; $i++) {
-                                $label = ['A', 'B', 'C', 'D', 'E'];
                                 echo $form->field($model, 'answers[]', ['options' => ['class' => 'invisible'], 'template' => "{input}"])->hiddenInput([
                                     'value' => $model->isNewRecord ? $label[$i] : $model->questionAnswers[$i]->answer
                                 ])->label(false);
                             }
+                        
+                            echo $form->field($model, 'is_correct_answer')->radioList($answerList);
                         } else if ($model->subTestClass->testClass->type == TestClass::SMART_TEST) {
                             echo $form->field($model, 'description')->textInput(['maxlength' => true]);
                             echo $form->field($model, 'question')->widget(\dosamigos\tinymce\TinyMce::className(), [
@@ -155,8 +157,8 @@ use yii\bootstrap\ActiveForm;
                                 ]
                             ]);
 
+                            $label = ['A', 'B', 'C', 'D', 'E'];
                             for ($i = 0; $i < 5; $i++) {
-                                $label = ['A', 'B', 'C', 'D', 'E'];
                                 
                                 echo $form->field($model, 'answers[]')->widget(\dosamigos\tinymce\TinyMce::className(), [
                                     'options' => [
@@ -177,11 +179,68 @@ use yii\bootstrap\ActiveForm;
                                     ]
                                 ])->label('Jawaban ' . $label[$i]);
                             }
-                        } else {
-
-                        }
                         
-                        echo $form->field($model, 'is_correct_answer')->radioList($answerList);
+                            echo $form->field($model, 'is_correct_answer')->radioList($answerList);
+                        } else {
+                            echo $form->field($model, 'description')->textInput(['maxlength' => true]);
+                            echo $form->field($model, 'question')->widget(\dosamigos\tinymce\TinyMce::className(), [
+                                'options' => ['rows' => 3],
+                                'language' => 'en',
+                                'clientOptions' => [
+                                    'plugins' => [
+                                        "advlist autolink lists link charmap print preview anchor",
+                                        "searchreplace visualblocks code fullscreen",
+                                        "insertdatetime image media table contextmenu paste"
+                                    ],
+                                    'images_upload_url' => Url::to('/admin/question-test/upload-image'),
+                                    'images_reuse_filename' => true,
+                                    'toolbar' => "undo redo | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | bullist numlist | link image"
+                                ]
+                            ]);
+
+                            $label = ['A', 'B', 'C', 'D', 'E'];
+                            for ($i = 0; $i < 5; $i++) {
+                                
+                                echo $form->field($model, 'answers[]')->widget(\dosamigos\tinymce\TinyMce::className(), [
+                                    'options' => [
+                                        'rows' => 2,
+                                        'id' => 'questiontest-answers-' . $i,
+                                        'value' => $model->isNewRecord ? '' : $model->questionAnswers[$i]->answer
+                                    ],
+                                    'language' => 'en',
+                                    'clientOptions' => [
+                                        'plugins' => [
+                                            "advlist autolink lists link charmap print preview anchor",
+                                            "searchreplace visualblocks code fullscreen",
+                                            "insertdatetime image media table contextmenu paste"
+                                        ],
+                                        'images_upload_url' => Url::to('/admin/question-test/upload-image'),
+                                        'images_reuse_filename' => true,
+                                        'toolbar' => "undo redo | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | bullist numlist | link image"
+                                    ]
+                                ])->label('Jawaban ' . $label[$i]);
+                            }
+                        
+                            echo $form->field($model, 'is_correct_answer[]', [
+                                'template' => "{label}<div class=\"col-sm-1\">A&nbsp;</div><div class=\"col-sm-2\">{input}</div>"
+                            ])->input('number', [
+                                'max' => 5,
+                                'min' => 1,
+                                'placeholder' => 'Skor A',
+                                'value' => $model->isNewRecord ? 1 : $model->questionAnswers[0]->is_correct
+                            ])->label('Skor (1-5)');
+
+                            for ($j = 1; $j < 5; $j++) {
+                                echo $form->field($model, 'is_correct_answer[]', [
+                                    'template' => "<div class=\"col-sm-2\"></div><div class=\"col-sm-1\">{$label[$j]}&nbsp;</div><div class=\"col-sm-2\">{input}</div>"
+                                ])->input('number', [
+                                    'max' => 5,
+                                    'min' => 1,
+                                    'placeholder' => 'Skor ' . $label[$j],
+                                    'value' => $model->isNewRecord ? 1 : $model->questionAnswers[$j]->is_correct
+                                ])->label(false);
+                            }
+                        }
                         ?>
 
                         <div class="my-3 text-center">
@@ -199,7 +258,7 @@ use yii\bootstrap\ActiveForm;
 </div>
 
 <!-- Button trigger modal -->
-<button type="button" id="modal-trigger" class="btn btn-primary" data-toggle="modal" data-target="#symbol-modal">
+<button type="button" id="modal-trigger" class="btn btn-primary invisible" data-toggle="modal" data-target="#symbol-modal">
     Pilih Simbol
 </button>
 
@@ -271,6 +330,7 @@ $('form button').click(function() {
 });
 
 $('#symbol-modal button.symbol-list').click(function() {
+    $(this).addClass('active');
     var value = $(this).attr('data-orig');
     var target = $('#symbol-modal').attr('data-field-target');
     var fieldValue = $('#' + target).val() + value;

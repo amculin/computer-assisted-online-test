@@ -199,7 +199,10 @@ class StudentController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+        $model->delete();
+
+        Yii::$app->session->setFlash('success-manage-class', 'Berhasil menghapus siswa.');
 
         return $this->redirect(['index']);
     }

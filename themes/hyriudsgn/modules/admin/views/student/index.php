@@ -113,6 +113,7 @@ use yii\bootstrap\ActiveForm;
                                         ]);
                                     },
                                     'delete' => function ($url, $model, $key) {
+                                        $url = Url::to(['/admin/student/delete', 'id' => $model->user_id]);
                                         return Html::a('<i class="far fa-trash-alt"></i>', $url, [
                                             'title' => 'Hapus',
                                             'class' => 'btn btn-mjk btn-xs',

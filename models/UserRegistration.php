@@ -60,4 +60,15 @@ class UserRegistration extends BaseUser
             ])->execute();
         }
     }
+
+    public function afterDelete()
+    {
+        parent::afterDelete();
+
+        $connection = Yii::$app->db;
+        $connection->createCommand()->delete('auth_assignment', [
+            'item_name' => 'Student',
+            'user_id' => $this->id
+        ])->execute();
+    }
 }

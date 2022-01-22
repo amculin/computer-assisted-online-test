@@ -22,7 +22,7 @@ class ScoreController extends Controller
         $count = $query->count();
 
         // create a pagination object with the total count
-        $pagination = new Pagination(['totalCount' => $count, 'pageSize' => 1]);
+        $pagination = new Pagination(['totalCount' => $count, 'pageSize' => 5]);
 
         // limit the query using the pagination and retrieve the articles
         $model = $query->offset($pagination->offset)

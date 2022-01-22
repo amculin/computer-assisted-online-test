@@ -96,8 +96,8 @@ class AccuracyTestController extends Controller
 
             if ($nextQuestion) {
                 $data = [
-                    'description' => trim(chunk_split($nextQuestion->description, 1, ' ')),
-                    'question' => trim(chunk_split($nextQuestion->question, 1, ' ')),
+                    'description' => $nextQuestion->description,
+                    'question' => $nextQuestion->question,
                     'answer_list' => $this->generateAnswers($nextQuestion)
                 ];
 

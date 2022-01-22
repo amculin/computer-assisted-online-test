@@ -11,12 +11,12 @@
         </div>
         <div class="col-12 col-md-8 mb-4">
             <div class="question-aq-box text-center" style="font-family: monospace">
-                <h3 id="question-description"><?= trim(chunk_split($model->description, 1, ' ')); ?></h3>
+                <h3 id="question-description"><?= $model->description; ?></h3>
                 <h3>A B C D E</h3>
             </div>
             <div class="answer-aq text-center">
                 <div class="answer-go-title">
-                    <h4><?= trim(chunk_split($model->question, 1, ' ')); ?></h4>
+                    <h4 id="question-detail"><?= $model->question; ?></h4>
                 </div>
 
                 <div id="answer-list" class="form-group form-group-mjk">
@@ -41,6 +41,8 @@
 
     <?php
     $nextUrl = Yii::$app->urlManager->createAbsoluteUrl('/student/accuracy-test/get-next');
+    $scoreUrl = Yii::$app->urlManager->createAbsoluteUrl(['/student/score/view', 'id' => $model->sub_test_class_id]);
+
     $js = "
     $('#finish-question').hide();
     $.ajaxSetup({
@@ -48,11 +50,30 @@
             \yii::$app->request->csrfParam => \yii::$app->request->csrfToken,
         ]) . "
     });
+    function splitString(string) {
+        var length = string.length;
+        var splittedString = '';
+
+        for (var i = 0; i < length; i++) {
+            if (i == (length - 1))
+                splittedString += string[i];
+            else
+                splittedString += string[i] + ' ';
+        }
+        return splittedString;
+    }
+
+    $('#question-description').html(splitString($('#question-description').text()));
+    $('#question-detail').html(splitString($('#question-detail').text()));
 
     var limiter = {$timeLimit};
 
     function runTimer() {
         var limitTime = limiter;
+
+        if (limitTime == 0)
+            window.location.replace('{$scoreUrl}');
+
         var hour = Math.floor(limitTime / 3600).toString();
         var minute = Math.floor((limitTime % 3600) / 60).toString();
         var second = ((limitTime % 3600) % 60).toString();
@@ -83,8 +104,8 @@
                         $(location).attr('href', data.redirect);
                     } else {
                         $('input[name=answer]:checked').prop('checked', false);
-                        $('div.question-aq-box h3#question-description').html(data.description);
-                        $('div.answer-go-title h4').html(data.question);
+                        $('div.question-aq-box h3#question-description').html(splitString(data.description));
+                        $('div.answer-go-title h4').html(splitString(data.question));
 
                         var answerList = ['A', 'B', 'C', 'D', 'E'];
                         var i = 0;

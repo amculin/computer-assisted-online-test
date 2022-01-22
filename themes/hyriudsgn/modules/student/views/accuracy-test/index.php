@@ -85,7 +85,16 @@
                         $('input[name=answer]:checked').prop('checked', false);
                         $('div.question-aq-box h3#question-description').html(data.description);
                         $('div.answer-go-title h4').html(data.question);
-                        $('div.answer-list').html(data.answer_list);
+
+                        var answerList = ['A', 'B', 'C', 'D', 'E'];
+                        var i = 0;
+                        $('input[name=answers]').attr('checked', false);
+
+                        data.answer_list.forEach(function(value, index) {
+                            $('input#ASQ' + answerList[i]).attr('value', value);
+                            i++;
+                        });
+
                     }
                     //init++;
                 }

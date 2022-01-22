@@ -95,11 +95,10 @@ class AccuracyTestController extends Controller
             $nextQuestion = QuestionTest::findNextQuestion($activeTest);
 
             if ($nextQuestion) {
-                $model = QuestionTest::findOne($nextQuestion->id);
                 $data = [
-                    'description' => trim(chunk_split($model->description, 1, ' ')),
-                    'question' => trim(chunk_split($model->question, 1, ' ')),
-                    'answer_list' => $this->generateAnswers($model)
+                    'description' => trim(chunk_split($nextQuestion->description, 1, ' ')),
+                    'question' => trim(chunk_split($nextQuestion->question, 1, ' ')),
+                    'answer_list' => $this->generateAnswers($nextQuestion)
                 ];
 
                 $activeTest->current_test_id = $nextQuestion->id;
@@ -123,20 +122,17 @@ class AccuracyTestController extends Controller
     public function deactivateTest()
     {
         Yii::$app->session[md5(Yii::$app->user->identity->username . ' - test')]->is_active = TesteesActiveTest::IS_INACTIVE;
-        Yii::$app->session[md5(Yii::$app->user->identity->username . ' - test')]->save();
+        Yii::$app->session[md5(Yii::$app->user->identity->username . ' - test')]->save(false);
 
         Yii::$app->session->remove(md5(Yii::$app->user->identity->username . ' - test'));
     }
 
     public function generateAnswers($model)
     {
-        $answers = '';
+        $answers = [];
 
         foreach($model->questionAnswers as $key => $val) {
-            $answers .= '<div class="custom-control custom-radio radio-mjk mb-2">';
-            $answers .= '<input type="radio" id="ASQ ' . $val->answer . ' " name="answer" value="' . $val->id . '" class="custom-control-input" />';
-            $answers .= '<label class="custom-control-label" for="ASQ' . $val->answer . '">' . $val->answer . '</label>';
-            $answers .= '</div>';
+            $answers[] = $val->id;
         }
 
         return $answers;

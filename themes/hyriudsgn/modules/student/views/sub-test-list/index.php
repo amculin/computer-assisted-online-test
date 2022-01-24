@@ -1,4 +1,5 @@
 <?php
+use app\models\TestClass;
 use yii\helpers\Url;
 ?>
 <div class="title-page-box mb-5">
@@ -20,10 +21,6 @@ use yii\helpers\Url;
                             <h3><?= $val->description; ?></h3>
                         </div>
                         <div class="card-mainquest-info">
-                            <!-- <div class="mainquest-info-item mr-4">
-                                <h5>Jumlah Soal</h5>
-                                <h3>500</h3>
-                            </div> -->
                             <div class="mainquest-info-item">
                                 <h5>Durasi</h5>
                                 <h3><?= ($val->limit_time / 60); ?> <span>menit</span></h3>
@@ -31,10 +28,9 @@ use yii\helpers\Url;
                         </div>
                         <div class="card-mainquest-action">
                             <?php
-                            //echo $val->type;
-                            if ($val->test_type == $val::ACCURACY_TEST)
+                            if ($val->testClass->type == TestClass::ACCURACY_TEST)
                                 $url = Url::toRoute(['/student/accuracy-test', 'subTestClassId' => $val->id]);
-                            else if ($val->test_type == $val::SMART_TEST)
+                            else if ($val->testClass->type == TestClass::SMART_TEST)
                                 $url = Url::toRoute(['/student/smart-test', 'subTestClassId' => $val->id]);
                             else
                                 $url = Url::toRoute(['/student/personality-test', 'subTestClassId' => $val->id]);

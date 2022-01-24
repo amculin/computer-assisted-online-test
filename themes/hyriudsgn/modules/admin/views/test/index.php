@@ -47,6 +47,10 @@ use yii\bootstrap\ActiveForm;
                                 'headerOptions' => ['class' => 'text-center']
                             ],
                             [
+                                'attribute' => 'number_of_question',
+                                'headerOptions' => ['class' => 'text-center']
+                            ],
+                            [
                                 'attribute' => 'limit_time',
                                 'headerOptions' => ['class' => 'text-center'],
                                 'content' => function($model, $key, $index, $column) {
@@ -124,5 +128,5 @@ use yii\bootstrap\ActiveForm;
     </div>
 </div>
 <?php
-$js = "$('td:nth-child(1)').css('text-align', 'center');";
+$js = "$('td:nth-child(1), td:nth-child(5)').css('text-align', 'center');";
 $this->registerJs($js);

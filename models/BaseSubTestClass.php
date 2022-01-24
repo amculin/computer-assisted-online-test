@@ -13,6 +13,7 @@ use Yii;
  * @property string $description
  * @property int $type 1 = Radio List; 2 = Checkbox List
  * @property int $limit_time
+ * @property int $number_of_question
  * @property int $status 0 = Inactive; 1 = Active;
  * @property int $created_at
  * @property int $updated_at
@@ -47,7 +48,7 @@ class BaseSubTestClass extends BaseModel
     {
         return [
             [['test_class_id', 'name', 'description', 'limit_time'], 'required'],
-            [['test_class_id', 'type', 'limit_time', 'status', 'created_at', 'updated_at'], 'integer'],
+            [['test_class_id', 'type', 'limit_time', 'number_of_question', 'status', 'created_at', 'updated_at'], 'integer'],
             [['description'], 'string'],
             [['name'], 'string', 'max' => 48],
             [['test_class_id'], 'exist', 'skipOnError' => true, 'targetClass' => TestClass::className(), 'targetAttribute' => ['test_class_id' => 'id']],
@@ -66,6 +67,7 @@ class BaseSubTestClass extends BaseModel
             'description' => 'Deskripsi',
             'type' => 'Tipe',
             'limit_time' => 'Batas Waktu',
+            'number_of_question' => 'Jumlah Soal',
             'status' => 'Status',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',

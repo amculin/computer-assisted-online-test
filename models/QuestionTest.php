@@ -53,6 +53,10 @@ class QuestionTest extends BaseQuestionTest
     public function afterSave($insert, $changedAttributes)
     {
         if ($insert) {
+            $subTestClass = $this->subTestClass;
+            $subTestClass->number_of_question++;
+            $subTestClass->save(false);
+
             for ($i = 0; $i < 5; $i++) {
                 $answer = new QuestionAnswer();
                 $answer->question_test_id = $this->id;

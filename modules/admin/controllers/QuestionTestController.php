@@ -70,10 +70,6 @@ class QuestionTestController extends Controller
         $answerList = $model->getAnswerList();
 
         if ($model->load(Yii::$app->request->post())) {
-            /* echo '<pre>';
-            print_r($_POST);
-            print_r($model);
-            exit(); */
             if ($model->validate()) {
                 if ($model->isNewRecord)
                     Yii::$app->session->setFlash('success-manage-class', 'Berhasil menambahkan pertanyaan baru.');

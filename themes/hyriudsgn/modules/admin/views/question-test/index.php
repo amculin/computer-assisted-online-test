@@ -227,7 +227,7 @@ use yii\bootstrap\ActiveForm;
                                 'max' => 5,
                                 'min' => 1,
                                 'placeholder' => 'Skor A',
-                                'value' => $model->isNewRecord ? 1 : $model->questionAnswers[0]->is_correct
+                                'value' => $model->isNewRecord ? '' : $model->questionAnswers[0]->is_correct
                             ])->label('Skor (1-5)');
 
                             for ($j = 1; $j < 5; $j++) {
@@ -237,7 +237,7 @@ use yii\bootstrap\ActiveForm;
                                     'max' => 5,
                                     'min' => 1,
                                     'placeholder' => 'Skor ' . $label[$j],
-                                    'value' => $model->isNewRecord ? 1 : $model->questionAnswers[$j]->is_correct
+                                    'value' => $model->isNewRecord ? '' : $model->questionAnswers[$j]->is_correct
                                 ])->label(false);
                             }
                         }

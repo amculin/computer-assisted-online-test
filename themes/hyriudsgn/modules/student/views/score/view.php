@@ -13,16 +13,27 @@
         </div>
         <div class="score-ego-info">
             <div class="score-ego-info-value">
+                <h5>Jumlah soal</h5>
+                <h3><?= $model->subTestClass->number_of_question; ?></h3>
+            </div>
+            <div class="score-ego-info-value">
                 <h5>Jumlah dikerjakan</h5>
                 <h3><?= $model->total_answered; ?></h3>
             </div>
+        
+            <?php if ($model->subTestClass->testClass->type != \app\models\TestClass::PERSONALITY_TEST) { ?>
+                <div class="score-ego-info-value">
+                    <h5>Jumlah Benar</h5>
+                    <h3><?= $model->total_correct; ?></h3>
+                </div>
+                <div class="score-ego-info-value">
+                    <h5>Jumlah Salah</h5>
+                    <h3><?= $model->total_wrong; ?></h3>
+                </div>
+            <?php } ?>
             <div class="score-ego-info-value">
-                <h5>Jumlah Benar</h5>
-                <h3><?= $model->total_correct; ?></h3>
-            </div>
-            <div class="score-ego-info-value">
-                <h5>Jumlah Salah</h5>
-                <h3><?= $model->total_wrong; ?></h3>
+                <h5>Lama Mengerjakan</h5>
+                <h3><?= $model->getConvertedTime(); ?></h3>
             </div>
         </div>
     </div>

@@ -1,4 +1,8 @@
-<?php if (! $hasAlert) { ?>
+<?php
+use yii\bootstrap\ActiveForm;
+
+if (! $hasAlert) {
+?>
     <div class="row">
         <div class="col-12 col-md-4 mb-4">
             <div class="navnumber-aq-box">
@@ -12,34 +16,47 @@
         <div class="col-12 col-md-8 mb-4">
             <div class="question-aq-box text-center" style="font-family: monospace">
                 <h3 id="question-description"><?= $model->description; ?></h3>
-                <h3>A B C D E</h3>
             </div>
-            <div class="answer-aq text-justify">
+            <div class="answer-aq">
                 <div class="answer-go-title">
-                    <h4><?= $model->question; ?></h4>
+                    <h4 id="question-detail"><?= $model->question; ?></h4>
                 </div>
 
                 <div id="answer-list" class="form-group form-group-mjk">
-                    <?php $index = 'A'; ?>
-                    <?php foreach($model->questionAnswers as $key => $val) { ?>
-                    <div class="custom-control custom-radio radio-mjk mb-2">
-                        <input type="radio" id="ASQ<?= $val->answer; ?>" name="answer" value="<?= $val->id; ?>" class="custom-control-input" />
-                        <label class="custom-control-label" for="ASQ<?= $val->answer; ?>"><?= $index++ . '. ' .$val->answer; ?></label>
-                    </div>
-                    <?php } ?>
+                    <?php
+                    $answerList = ['A', 'B', 'C', 'D', 'E'];
+                    $i = 0;
+
+                    foreach($model->questionAnswers as $key => $val) {
+                    ?>
+                        <div class="custom-control custom-radio radio-mjk mb-2">
+                            <input type="radio" id="ASQ<?= $answerList[$i]; ?>" name="answer" value="<?= $val->id; ?>" class="custom-control-input" />
+                            <label class="custom-control-label" id="for-ASQ<?= $answerList[$i]; ?>" for="ASQ<?= $answerList[$i]; ?>"><?= $val->answer; ?></label>
+                        </div>
+                    <?php
+                        $i++;
+                    }
+                    ?>
+                    <input type="hidden" name="<?= Yii::$app->request->csrfParam; ?>" value="<?= Yii::$app->request->csrfToken; ?>" />
                 </div>
             </div>
+            <?php $form = ActiveForm::begin([
+                'action' => '/student/personality-test/final-submit',
+            ]); ?>
             <div class="answer-aq-action">
                 <div class="action-global-box">
+                    <input type="hidden" name="active_session" value="<?= md5(Yii::$app->user->identity->username . ' - test'); ?>" />
                     <a class="btn btn-mjk" id="next-question" href="#" title="" >LANJUT</a>
-                    <a class="btn btn-mjk" id="finish-question" href="index.php?pages=test-step-final" title="">SELESAI</a>
+                    <button type="submit" id="final-submission" class="btn btn-mjk invisible" title="">SELESAI</button>
                 </div>
             </div>
-            
+            <?php ActiveForm::end(); ?>
         </div>
     </div>
 
     <?php
+    $nextUrl = Yii::$app->urlManager->createAbsoluteUrl('/student/personality-test/get-next');
+
     $js = "
     $('#finish-question').hide();
     $.ajaxSetup({
@@ -49,49 +66,82 @@
     });
 
     var limiter = {$timeLimit};
+    var isModalShowed = false;
 
     function runTimer() {
         var limitTime = limiter;
-        var hour = Math.floor(limitTime / 3600).toString();
-        var minute = Math.floor((limitTime % 3600) / 60).toString();
-        var second = ((limitTime % 3600) % 60).toString();
 
-        $('#countdown-timer').text(hour.padStart(2, '0') + ':' + minute.padStart(2, '0') + ':' + second.padStart(2, '0'));
-        limiter--;
+        if (limitTime == 0) {
+            if (! isModalShowed) {
+                $('#next-question').hide();
+                $('div.modal-body').html('Waktu mengerjakan sudah habis!');
+                $('#exampleModal').attr('data-status', 'ready');
+                $('#modal-trigger').click();
+
+                isModalShowed = true;
+            }
+
+            return;
+        } else {
+
+            var hour = Math.floor(limitTime / 3600).toString();
+            var minute = Math.floor((limitTime % 3600) / 60).toString();
+            var second = ((limitTime % 3600) % 60).toString();
+
+            $('#countdown-timer').text(hour.padStart(2, '0') + ':' + minute.padStart(2, '0') + ':' + second.padStart(2, '0'));
+            limiter--;
+        }
     }
 
     setInterval('runTimer()', 1000);
 
-    //var init = 1;
     $('#next-question').click(function() {
-        //console.log($('input[name=jawaban]:checked').val());
         var value = $('input[name=answer]:checked').val();
-        //var csrf = $('input[name=_csrf]').val();
+        var csrf = $('input[name=_csrf]').val();
 
         if ($('input[name=answer]').is(':checked')) {
-            console.log(value);
             $.ajax({
-                url: 'http://online-test.test/student/personality-test/get-next',
+                url: '{$nextUrl}',
                 type: 'POST',
-                data: 'answer=' + value,
+                data: 'answer=' + value + '&_csrf=' + csrf,
                 dataType: 'json',
-                //headers: {'X-CSRF-Token':csrf},
-                success:function(data){
-                    //console.log(data.description);
+                headers: {'X-CSRF-Token':csrf},
+                success: function(data) {
                     if (data.isCompleted) {
-                        $(location).attr('href', data.redirect);
+                        $('#next-question').hide();
+                        $('div.modal-body').html('Soal sudah habis!');
+                        $('#exampleModal').attr('data-status', 'ready');
+                        $('#modal-trigger').click();
                     } else {
                         $('input[name=answer]:checked').prop('checked', false);
                         $('div.question-aq-box h3#question-description').html(data.description);
                         $('div.answer-go-title h4').html(data.question);
-                        $('div.answer-list').html(data.answer_list);
+
+                        var answerList = ['A', 'B', 'C', 'D', 'E'];
+                        var i = 0;
+                        $('input[name=answers]').attr('checked', false);
+
+                        data.answer_list.forEach(function(value, index) {
+                            $('input#ASQ' + answerList[i]).attr('value', value.id);
+                            $('label#for-ASQ' + answerList[i]).html(value.label);
+
+                            i++;
+                        });
+
                     }
-                    //init++;
                 }
             });
         } else {
             $('div.modal-body').html('Anda belum memilih jawaban!');
             $('#modal-trigger').click();
+        }
+    });
+
+    $('#exampleModal').on('shown.bs.modal', function (e) {
+        if ($('#exampleModal').attr('data-status') == 'ready') {
+            setInterval(function() {
+                $('#w0').submit();
+            }, 2000);
         }
     });
     ";
@@ -110,7 +160,7 @@
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
         <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Peringatan</h5>

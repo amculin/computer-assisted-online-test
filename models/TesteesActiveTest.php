@@ -22,9 +22,7 @@ class TesteesActiveTest extends BaseTesteesActiveTest
     public static function createActiveTest($subTestClassId, $testeesId)
     {
         $test = QuestionTest::find()->where(['sub_test_class_id' => $subTestClassId])->one();
-        /* echo '<pre>';
-        print_r($test);
-        exit(); */
+
         $model = new self();
         $model->testees_id          = $testeesId;
         $model->sub_test_class_id   = $subTestClassId;
@@ -32,6 +30,7 @@ class TesteesActiveTest extends BaseTesteesActiveTest
         $model->start_time          = time();
         $model->end_time            = time() + $test->subTestClass->limit_time;
         $model->is_active           = self::IS_ACTIVE;
+
         if (! $model->save())
             print_r($model->getErrors());
         else

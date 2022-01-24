@@ -49,7 +49,7 @@ class AccuracyTestController extends Controller
 
             if (time() >= $activeTest->end_time) {
                 $hasAlert = true;
-                $alert = "Waktu pengerjaan sudah habis!";
+                $alert = "Waktu mengerjakan sudah habis!";
                 $activeTest->is_active = $activeTest::IS_INACTIVE;
                 $activeTest->save();
 
@@ -106,16 +106,24 @@ class AccuracyTestController extends Controller
             } else {
                 $redirect = Yii::$app->urlManager->createAbsoluteUrl(['/student/score/view', 'id' => $activeTest->sub_test_class_id]);
 
-                if (TesteesScore::createScore($activeTest))
-                    $this->deactivateTest();
-
                 $data = [
                     'isCompleted' => true,
-                    'redirect' => $redirect
                 ];
             }
 
             return json_encode($data);
+        }
+    }
+
+    public function actionFinalSubmit()
+    {
+        if (Yii::$app->request->isPost) {
+            $activeTest = Yii::$app->session[md5(Yii::$app->user->identity->username . ' - test')];
+            
+            if (TesteesScore::createScore($activeTest))
+                $this->deactivateTest();
+            
+            return $this->redirect(['/student/score/view', 'id' => $activeTest->sub_test_class_id]);
         }
     }
 

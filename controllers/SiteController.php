@@ -65,12 +65,6 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        /* echo '<pre>';
-        //print_r(Yii::$app->user);
-        print_r(Yii::$app->user);
-        echo '</pre>'; */
-        //echo Yii::$app->getSecurity()->generatePasswordHash('qwerty123');
-
         $this->view->title = 'Taruna Education - Login';
 
         if (!Yii::$app->user->isGuest) {
@@ -82,14 +76,7 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            /* echo '<pre>';
-            //print_r(Yii::$app->user);
-            print_r(Yii::$app->user->identity);
-            echo '</pre>';
-            echo 'aaaa';
-            exit(); */
             return $this->redirect(['/student/dashboard/index']);
-            //return $this->goBack();
         }
 
         $model->password = '';
@@ -132,6 +119,8 @@ class SiteController extends Controller
 
         $userModel      = new UserRegistration();
         $userDataModel  = new BaseTesteesData();
+
+        $userModel->scenario = $userModel::CREATE_USER;
 
         if ($userModel->load(Yii::$app->request->post()) && $userDataModel->load(Yii::$app->request->post())) {
             $userModel->status = UserRegistration::INACTIVE;

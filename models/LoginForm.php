@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use app\models\UserIdentity as User;
 use yii\base\Model;
 
 /**
@@ -36,6 +37,17 @@ class LoginForm extends Model
     }
 
     /**
+     * @return array customized attribute labels
+     */
+    public function attributeLabels()
+    {
+        return [
+            'username' => 'Email',
+            'password' => 'Password'
+        ];
+    }
+
+    /**
      * Validates the password.
      * This method serves as the inline validation for password.
      *
@@ -46,9 +58,10 @@ class LoginForm extends Model
     {
         if (!$this->hasErrors()) {
             $user = $this->getUser();
+            
 
             if (!$user || !$user->validatePassword($this->password)) {
-                $this->addError($attribute, 'Incorrect username or password.');
+                $this->addError($attribute, 'Email atau password salah, atau akun belum diaktivasi.');
             }
         }
     }

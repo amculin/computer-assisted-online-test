@@ -1,0 +1,147 @@
+/*!
+* Copyright 2021 hyriudsgn.
+*/
+
+
+/* Desktop First Design */
+
+/* Larger Devices, Wider Screens */
+@media only screen and (min-width : 1700px) {
+	
+}
+
+@media (min-width : 1500px) and (max-width: 1700px) {
+	
+}
+
+@media only screen and (min-width : 1367px) {
+
+}
+
+/* Medium Devices, Desktops */
+@media only screen and (max-width : 1200px) {
+	
+}
+
+@media only screen and (min-width: 1200px) {
+
+}
+
+@media only screen and (min-width : 1024px) {
+	
+}
+
+@media only screen and (max-width : 1024px) {
+
+
+}
+@media only screen and (max-width : 992px) {
+
+}
+
+/* Start mobile responsive */
+@media only screen and (max-width : 991px) {
+
+	/*sidebarmenu*/
+	.sidebar-mainmenu-item-top{
+		padding: 70px 20px 30px 20px;
+	}
+	.sidebar-mainmenu-item-bottom{
+		padding: 20px 20px 30px 20px;
+	}
+	.button-sidebar-mainmenu{
+		display: flex;
+		flex-grow: 2;
+	}
+	.button-sidebar-mainmenu .fa-bars{
+		top: 16px;
+		left: 17px;
+	}
+	.button-sidebar-mainmenu .fa-times{
+		top: 16px;
+		left: 19px;
+	}
+
+	/*profile*/
+	.profile-view-box{
+		width: 100%;
+	}
+
+}
+
+/* Small Devices, Desktops */
+@media only screen and (max-width : 812px) {
+	
+}
+
+@media only screen and (max-width : 768px) {
+
+}
+
+/* Extra Small Devices, Phones */
+@media only screen and (max-width : 767px) {
+	
+	/*card question 1*/
+	.card-mainquest{
+		flex-direction: column;
+		align-items: flex-start;
+	}
+	.card-mainquest-label{
+		padding: 0;
+	}
+	.card-mainquest-info{
+		width: 100%;
+		padding: 10px 0 15px;
+	}
+	.card-mainquest-action{
+		width: 100%;
+	}
+	.card-mainquest-action .btn{
+		width: 100%;
+	}
+
+	/*card question 2*/
+	.card-secondquest{
+		flex-direction: column;
+		align-items: flex-start;
+	}
+	.card-secondquest-label{
+		padding: 0;
+	}
+	.card-secondquest-info{
+		width: 100%;
+		padding: 20px 0 0;
+	}
+	.secondquest-info-col.score{
+		padding: 0;
+	}
+	.secondquest-info-col.mr-4{
+		margin-right: 10px !important;
+	}
+
+}
+
+@media only screen and (max-width : 640px) {
+
+	/*sidebarmenu*/
+	.sidebar-mainmenu-item-box{
+		overflow: auto;
+	}
+	
+}
+
+@media only screen and (max-width : 575px) {
+
+}
+
+@media only screen and (max-width : 480px) {
+	
+}
+
+@media only screen and (max-width : 375px) {
+
+}
+
+@media only screen and (max-width : 320px) {
+	
+}

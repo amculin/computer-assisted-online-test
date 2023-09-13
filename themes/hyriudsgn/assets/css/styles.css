@@ -1,0 +1,51 @@
+﻿/*!
+* Copyright 2021 hyriudsgn.
+*/
+
+/*framework bootstrap*/
+@import url("bootstrap.min.css");
+
+/*import typography*/
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css");
+
+/*import fonts*/
+@import url("https://fonts.googleapis.com/css?family=Nunito+Sans:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i&display=swap");
+
+/*jquery*/
+@import url("https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.structure.min.css");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.theme.min.css");
+
+/* === begin PLUGIN ==== */
+/*animate*/
+@import url("../plugins/animate/animate.min.css");
+
+/*select2*/
+@import url("../plugins/select2/dist/css/select2.min.css");
+
+/*datepicker dropdown*/
+@import url("https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.standalone.min.css");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.min.css");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.standalone.min.css");
+
+/*daterangepicker*/
+@import url("https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css");
+
+/*fancybox*/
+@import url("../plugins/fancybox/dist/jquery.fancybox.min.css");
+
+
+/* === end PLUGIN ==== */
+
+/*import main custom*/
+@import "typography.css";
+@import "form-master.min.css";
+@import "general-master.min.css";
+@import "navbar.css";
+@import "layout.css";
+@import "responsive-master.min.css";
+@import "responsive-navbar.css";
+@import "responsive.css";

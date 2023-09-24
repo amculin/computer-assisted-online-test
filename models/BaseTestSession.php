@@ -34,7 +34,7 @@ class BaseTestSession extends BaseModel
         return [
             [['session_name', 'start_time', 'end_time'], 'required'],
             [['start_time', 'end_time', 'created_at', 'updated_at'], 'integer'],
-            [['name'], 'string', 'max' => 48]
+            [['session_name'], 'string', 'max' => 48]
         ];
     }
 

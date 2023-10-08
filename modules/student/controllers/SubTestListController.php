@@ -3,6 +3,7 @@
 namespace app\modules\student\controllers;
 
 use Yii;
+use app\models\TestSessionAssignment;
 use app\models\SubTestClass;
 use app\models\TestClass;
 use yii\data\Pagination;
@@ -21,31 +22,22 @@ class SubTestListController extends Controller
      */
     public function actionIndex($testClassId)
     {
-
         $this->canAccess($testClassId);
 
-        // build a DB query to get all articles with status = 1
-        $query = SubTestClass::find()->where(['test_class_id' => $testClassId, 'status' => SubTestClass::ACTIVE]);
+        $allowedTest = TestSessionAssignment::getActiveSession($testClassId);
 
-        // get the total number of articles (but do not fetch the article data yet)
+        $query = SubTestClass::find()->where(['id' => $allowedTest, 'status' => SubTestClass::ACTIVE]);
+
         $count = $query->count();
 
-        // create a pagination object with the total count
         $pagination = new Pagination(['totalCount' => $count, 'pageSize' => 5]);
 
-        // limit the query using the pagination and retrieve the articles
         $model = $query->offset($pagination->offset)
             ->limit($pagination->limit)
             ->all();
 
-        //$model = SubTestClass::find()->where(['test_class_id' => $testClassId])->all();
         $testClass = TestClass::findOne($testClassId);
-        /* echo '<pre>';
-        //print_r($classData);
-        print_r($model);
-        exit(); */
         
-        //$model = TestClass::getAllByClass();
         $title = strtoupper('KELAS ' . Yii::$app->user->identity->testeesData->class->name . ' - ' . $testClass->name);
 
         return $this->render('index', [

@@ -4,6 +4,7 @@ namespace app\modules\student\controllers;
 use Yii;
 use app\models\QuestionAnswer;
 use app\models\QuestionTest;
+use app\models\TestSessionAssignment;
 use app\models\TesteesActiveTest;
 use app\models\TesteesAnswer;
 use app\models\TesteesScore;
@@ -25,6 +26,22 @@ class AccuracyTestController extends Controller
     public function actionIndex($subTestClassId)
     {
         $activeTest = TesteesActiveTest::findActiveTest(Yii::$app->user->identity->testeesData->id);
+        $activeSession = TestSessionAssignment::getClassSessionStatus($subTestClassId);
+
+        if (empty($activeSession)) {
+            $hasAlert = true;
+            $alert = "Sesi mengerjakan tes sudah habis!";
+
+            if ($activeTest) {
+                $activeTest->is_active = $activeTest::IS_INACTIVE;
+                $activeTest->save();
+            }
+
+            return $this->render('index', [
+                'alert' => $alert,
+                'hasAlert' => $hasAlert
+            ]);
+        }
 
         if ($activeTest) {
             if ($activeTest->subTestClass->id != $subTestClassId) {

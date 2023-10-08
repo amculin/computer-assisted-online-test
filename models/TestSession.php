@@ -2,8 +2,11 @@
 
 namespace app\models;
 
+use app\models\BaseTestSessionAssignment as SessionAssignment;
+
 class TestSession extends BaseTestSession
 {
+    public $sub_test_class;
     public $start_time_picker;
     public $end_time_picker;
 
@@ -13,7 +16,13 @@ class TestSession extends BaseTestSession
     public function rules()
     {
         return [
-            [['session_name', 'start_time_picker', 'end_time_picker', 'start_time', 'end_time'], 'required'],
+            [
+                [
+                    'session_name', 'sub_test_class', 'start_time_picker', 'end_time_picker',
+                    'start_time', 'end_time'
+                ], 'required'
+            ],
+            [['start_time_picker', 'end_time_picker', 'sub_test_class', 'start_time', 'end_time'], 'safe'],
             [['start_time', 'end_time', 'created_at', 'updated_at'], 'integer'],
             [['session_name'], 'string', 'max' => 48]
         ];
@@ -27,6 +36,7 @@ class TestSession extends BaseTestSession
         return [
             'id' => 'ID',
             'session_name' => 'Nama Sesi',
+            'sub_test_class' => 'Nama Tes',
             'start_time' => 'Waktu Mulai',
             'start_time_picker' => 'Waktu Mulai',
             'end_time' => 'Waktu Selesai',
@@ -46,10 +56,39 @@ class TestSession extends BaseTestSession
         return true;
     }
 
+    public function getAssignedTest()
+    {
+        $data = [];
+
+        foreach ($this->testSessionAssignments as $key => $val) {
+            $data[] = $val->sub_test_class_id;
+        }
+
+        return $data;
+    }
+
     public function getConvertedTime($time)
     {
-        $date = date('d F Y, H:i', $time);
+        return date('Y-m-d H:i', $time);
+    }
 
-        return $date;
+    public function insertNewAssignments()
+    {
+        foreach ($this->sub_test_class as $key => $val) {
+            $model = new SessionAssignment();
+            $model->session_id = $this->id;
+            $model->sub_test_class_id = $val;
+            $model->save();
+        }
+    }
+
+    public function afterSave($insert, $changedAttributes)
+    {
+        if ($insert) {
+            $this->insertNewAssignments();
+        } else {
+            SessionAssignment::deleteAll(['session_id' => $this->id]);
+            $this->insertNewAssignments();
+        }
     }
 }

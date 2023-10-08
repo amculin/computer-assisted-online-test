@@ -4,6 +4,7 @@ use yii\helpers\Url;
 use yii\grid\GridView;
 use yii\bootstrap\ActiveForm;
 use kartik\datetime\DateTimePicker;
+use kartik\select2\Select2;
 ?>
 
 <div class="row">
@@ -19,7 +20,8 @@ use kartik\datetime\DateTimePicker;
                     <div class="col-12 col-sm-8 col-md-9 col-lg-7">
                     <?php
                     if (Yii::$app->session->hasFlash('success-manage-class')) {
-                        echo '<div class="alert alert-success" role="alert">' . Yii::$app->session->getFlash('success-manage-class') . '</div>';
+                        echo '<div class="alert alert-success" role="alert">' . 
+                            Yii::$app->session->getFlash('success-manage-class') . '</div>';
                     }
 
                     echo GridView::widget([
@@ -58,8 +60,8 @@ use kartik\datetime\DateTimePicker;
                                 'template' => '{update} {delete}',
                                 'buttons' => [
                                     'update' => function ($url, $model, $key) {
-                                        $url = Url::to(['/admin/test-session/index', 'id' => $model->id]);
-                                        return Html::a('<i class="far fa-edit"></i>', $url, [
+                                        $link = Url::to(['/admin/test-session/index', 'id' => $model->id]);
+                                        return Html::a('<i class="far fa-edit"></i>', $link, [
                                             'class' => 'btn btn-mjk btn-xs',
                                             'title' => 'Update'
                                         ]);
@@ -97,18 +99,27 @@ use kartik\datetime\DateTimePicker;
                         ]); ?>
 
                         <?= $form->field($model, 'session_name')->textInput(['maxlength' => true]) ?>
+                        <?= $form->field($model, 'sub_test_class')->widget(Select2::classname(), [
+                            'data' => $testList,
+                            'bsVersion' => '4.x',
+                            'options' => ['placeholder' => 'Pilih Nama Tes (Bisa Lebih dari Satu)', 'multiple' => true],
+                            'theme' => Select2::THEME_KRAJEE,
+                            'pluginOptions' => [
+                                'allowClear' => true
+                            ],
+                        ]); ?>
                         <?= $form->field($model, 'start_time_picker')->widget(DateTimePicker::classname(), [
                             'options' => ['class' => 'form-control'],
                             'pluginOptions' => [
                                 'autoclose' => true,
-                                'format' => 'dd MM yyyy, hh:ii'
+                                'format' => 'yyyy-mm-dd hh:ii'
                             ]
                         ]); ?>
                         <?= $form->field($model, 'end_time_picker')->widget(DateTimePicker::classname(), [
                             'options' => ['class' => 'form-control'],
                             'pluginOptions' => [
                                 'autoclose' => true,
-                                'format' => 'dd MM yyyy, hh:ii'
+                                'format' => 'yyyy-mm-dd hh:ii'
                             ]
                         ]); ?>
 

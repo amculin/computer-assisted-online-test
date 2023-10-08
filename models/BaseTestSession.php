@@ -60,6 +60,6 @@ class BaseTestSession extends BaseModel
      */
     public function getTestSessionAssignments()
     {
-        return $this->hasMany(BaseTestSessionAssignments::className(), ['session_id' => 'id']);
+        return $this->hasMany(BaseTestSessionAssignment::className(), ['session_id' => 'id']);
     }
 }

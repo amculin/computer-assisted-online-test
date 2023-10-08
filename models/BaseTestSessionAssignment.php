@@ -16,7 +16,7 @@ use Yii;
  * @property TestSession $testSession
  * @property SubTestClasses[] $subTestClasses
  */
-class BaseTestSessionAssignement extends BaseModel
+class BaseTestSessionAssignment extends BaseModel
 {
     /**
      * {@inheritdoc}
@@ -52,22 +52,22 @@ class BaseTestSessionAssignement extends BaseModel
     }
 
     /**
-     * Gets query for [[TestSession]].
+     * Gets query for [[Session]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getTestSession()
+    public function getSession()
     {
         return $this->hasOne(BaseTestSession::className(), ['id' => 'session_id']);
     }
 
     /**
-     * Gets query for [[SubTestClasses]].
+     * Gets query for [[SubTestClass]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getSubTestClasses()
+    public function getSubTestClass()
     {
-        return $this->hasMany(BaseSubTestClass::className(), ['sub_test_class_id' => 'id']);
+        return $this->hasOne(BaseSubTestClass::className(), ['id' => 'sub_test_class_id']);
     }
 }

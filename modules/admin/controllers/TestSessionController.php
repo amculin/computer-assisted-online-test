@@ -3,6 +3,7 @@
 namespace app\modules\admin\controllers;
 
 use Yii;
+use app\models\SubTestClass;
 use app\models\TestSession;
 use yii\data\ActiveDataProvider;
 use yii\filters\VerbFilter;
@@ -38,6 +39,36 @@ class TestSessionController extends Controller
      */
     public function actionIndex($id = null)
     {
+        if (is_null($id)) {
+            $model = new TestSession();
+        } else {
+            $model = $this->findModel($id);
+            $model->start_time_picker = $model->getConvertedTime($model->start_time);
+            $model->end_time_picker = $model->getConvertedTime($model->end_time);
+            $model->sub_test_class = $model->getAssignedTest();
+        }
+
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->validate()) {
+                if ($model->isNewRecord) {
+                    Yii::$app->session->setFlash('success-manage-class', 'Berhasil menambahkan sesi tes baru.');
+                } else {
+                    Yii::$app->session->setFlash('success-manage-class',
+                        'Berhasil mengubah sesi tes ' . $model->session_name . '.');
+                }
+
+                $model->save(false);
+            } else {
+                echo '<pre>';
+                print_r(Yii::$app->request->post());
+                print_r($model->attributes);
+                print_r($model->getErrors());
+                exit();
+            }
+
+            return $this->redirect(['index', 'id' => null]);
+        }
+
         $dataProvider = new ActiveDataProvider([
             'query' => TestSession::find(),
             'pagination' => [
@@ -45,32 +76,11 @@ class TestSessionController extends Controller
             ],
         ]);
 
-        if (is_null($id))
-            $model = new TestSession();
-        else {
-            $model = $this->findModel($id);
-            $model->start_time_picker = $model->getConvertedTime($model->start_time);
-            $model->end_time_picker = $model->getConvertedTime($model->end_time);
-        }
-
-        if ($model->load(Yii::$app->request->post())) {
-            if ($model->validate()) {
-                if ($model->isNewRecord)
-                    Yii::$app->session->setFlash('success-manage-class', 'Berhasil menambahkan sesi tes baru.');
-                else
-                    Yii::$app->session->setFlash('success-manage-class', 'Berhasil mengubah sesi tes ' . $model->session_name . '.');
-
-                $model->save(false);
-            } else {
-                echo '<pre>';
-                print_r($model->getErrors());
-            }
-
-            return $this->redirect(['index', 'id' => null]);
-        }
+        $testList = \yii\helpers\ArrayHelper::map(SubTestClass::getList(), 'id', 'name');
 
         return $this->render('index', [
             'dataProvider' => $dataProvider,
+            'testList' => $testList,
             'model' => $model
         ]);
     }
@@ -87,7 +97,8 @@ class TestSessionController extends Controller
         $model = $this->findModel($id);
         $model->delete();
         
-        Yii::$app->session->setFlash('success-manage-class', 'Berhasil menghapus jenis tes ' . $model->session_name . '.');
+        Yii::$app->session->setFlash('success-manage-class',
+            'Berhasil menghapus jenis tes ' . $model->session_name . '.');
 
         return $this->redirect(['index']);
     }

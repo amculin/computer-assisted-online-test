@@ -28,7 +28,7 @@ class m230914_125141_create_test_session_assignment_table extends Migration
             'session_id',
             'test_session',
             'id',
-            'NO ACTION'
+            'CASCADE'
         );
 
         // add foreign key
@@ -47,8 +47,6 @@ class m230914_125141_create_test_session_assignment_table extends Migration
      */
     public function safeDown()
     {
-        $this->dropTable('{{%test_session_assignment}}');
-
         // drops foreign key
         $this->dropForeignKey(
             'FK-TestSessionAssignemt-session_id-TO-TestSession-id',
@@ -60,5 +58,7 @@ class m230914_125141_create_test_session_assignment_table extends Migration
             'FK-TestSessionAssignment-sub_test_class_id-TO-SubTestClass-id',
             'test_session_assignment'
         );
+
+        $this->dropTable('{{%test_session_assignment}}');
     }
 }

@@ -26,18 +26,22 @@ class SubTestListController extends Controller
 
         $allowedTest = TestSessionAssignment::getActiveSession($testClassId);
 
-        $query = SubTestClass::find()->where(['id' => $allowedTest, 'status' => SubTestClass::ACTIVE]);
-
-        $count = $query->count();
-
-        $pagination = new Pagination(['totalCount' => $count, 'pageSize' => 5]);
-
-        $model = $query->offset($pagination->offset)
-            ->limit($pagination->limit)
-            ->all();
-
-        $testClass = TestClass::findOne($testClassId);
+        if (!empty($allowedTest)) {
+            $query = SubTestClass::find()->where(['id' => $allowedTest, 'status' => SubTestClass::ACTIVE]);
+    
+            $count = $query->count();
+    
+            $pagination = new Pagination(['totalCount' => $count, 'pageSize' => 5]);
+    
+            $model = $query->offset($pagination->offset)
+                ->limit($pagination->limit)
+                ->all();
+        } else {
+            $model = null;
+            $pagination = null;
+        }
         
+        $testClass = TestClass::findOne($testClassId);
         $title = strtoupper('KELAS ' . Yii::$app->user->identity->testeesData->class->name . ' - ' . $testClass->name);
 
         return $this->render('index', [

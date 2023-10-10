@@ -9,7 +9,7 @@ use yii\bootstrap\ActiveForm;
     <div class="col-12">
         <div class="widget-oso-top-control-box">
             <div class="widget-oso-top-control">
-                <a href="<?= Url::to('/admin/score/download'); ?>" class="btn btn-mjk btn-sm" title=""><i class="far fa-file-excel mr-2"></i> DOWNLOAD</a>
+                <!--<a href="<?= Url::to('/admin/score/download'); ?>" class="btn btn-mjk btn-sm" title=""><i class="far fa-file-excel mr-2"></i> DOWNLOAD</a>-->
             </div>
         </div>
         <div class="widget-oso-content-box">

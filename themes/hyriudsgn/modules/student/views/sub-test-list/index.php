@@ -10,6 +10,8 @@ use yii\helpers\Url;
     <p>Pilih sesuai urutan</p>
 </div>
 
+<?php if (!is_null($model)) { ?>
+
 <div class="question-primary-list">
     <ul>
         <?php foreach ($model as $key => $val) { ?>
@@ -64,3 +66,6 @@ use yii\helpers\Url;
         ?>
 	</nav>
 </div>
+<?php } else {
+    echo '<h3>Tidak ada sesi tes yang aktif!</h3>';
+} ?>

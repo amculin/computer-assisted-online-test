@@ -123,19 +123,15 @@ class UserIdentity extends MdmUser implements IdentityInterface
                     'url'   => '/admin/test/index'
                 ],
                 [
+                    'name'  => 'Manajemen Sesi Tes',
+                    'url'   => '/admin/test-session/index'
+                ],
+                [
                     'name'  => 'Rekap Nilai',
                     'url'   => '/admin/score/index'
                 ]
-                /* [
-                    'name'  => 'Manajemen Pertanyaan',
-                    'url'   => '/admin/question/index'
-                ],
-                [
-                    'name'  => 'Nilai Siswa',
-                    'url'   => '/admin/score/index'
-                ], */
             ];
-        } else if ($this->type == BaseUser::TESTER) {
+        } elseif ($this->type == BaseUser::TESTER) {
             return [
 
             ];

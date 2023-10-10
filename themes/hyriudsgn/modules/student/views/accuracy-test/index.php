@@ -30,7 +30,7 @@ if (! $hasAlert) {
 
                     foreach($model->questionAnswers as $key => $val) {
                     ?>
-                        <div class="custom-control custom-radio radio-mjk mb-2">
+                        <div class="custom-control custom-radio radio-mjk mb-2 auto-submit">
                             <input type="radio" id="ASQ<?= $answerList[$i]; ?>" name="answer" value="<?= $val->id; ?>" class="custom-control-input" />
                             <label class="custom-control-label" id="for-ASQ<?= $answerList[$i]; ?>" for="ASQ<?= $answerList[$i]; ?>"><?= $val->answer; ?></label>
                         </div>
@@ -47,7 +47,7 @@ if (! $hasAlert) {
             <div class="answer-aq-action">
                 <div class="action-global-box">
                     <input type="hidden" name="active_session" value="<?= md5(Yii::$app->user->identity->username . ' - test'); ?>" />
-                    <a class="btn btn-mjk" id="next-question" href="#" title="" >LANJUT</a>
+                    <a class="btn btn-mjk invisible" id="next-question" href="#" title="" >LANJUT</a>
                     <button type="submit" id="final-submission" class="btn btn-mjk invisible" title="">SELESAI</button>
                 </div>
             </div>
@@ -110,6 +110,10 @@ if (! $hasAlert) {
     }
 
     setInterval('runTimer()', 1000);
+
+    $('input[name=answer').change(function() {
+        $('#next-question').click();
+    })
 
     //var init = 1;
     $('#next-question').click(function() {

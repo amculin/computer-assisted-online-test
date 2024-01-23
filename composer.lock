@@ -1663,16 +1663,16 @@
         },
         {
             "name": "tinymce/tinymce",
-            "version": "5.10.2",
+            "version": "6.8.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tinymce/tinymce-dist.git",
-                "reference": "ef9962f1d40abbb80a4fd4f023151fd28f891a6c"
+                "reference": "b0073db409746748af4fc06fbee337bb99f462d9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tinymce/tinymce-dist/zipball/ef9962f1d40abbb80a4fd4f023151fd28f891a6c",
-                "reference": "ef9962f1d40abbb80a4fd4f023151fd28f891a6c",
+                "url": "https://api.github.com/repos/tinymce/tinymce-dist/zipball/b0073db409746748af4fc06fbee337bb99f462d9",
+                "reference": "b0073db409746748af4fc06fbee337bb99f462d9",
                 "shasum": ""
             },
             "type": "component",
@@ -1682,12 +1682,14 @@
                         "tinymce.js",
                         "plugins/*/plugin.js",
                         "themes/*/theme.js",
-                        "themes/*/icons.js"
+                        "models/*/model.js",
+                        "icons/*/icons.js"
                     ],
                     "files": [
                         "tinymce.min.js",
                         "plugins/*/plugin.min.js",
                         "themes/*/theme.min.js",
+                        "models/*/model.min.js",
                         "skins/**",
                         "icons/*/icons.min.js"
                     ]
@@ -1695,7 +1697,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "LGPL-2.1-only"
+                "MIT-only"
             ],
             "description": "Web based JavaScript HTML WYSIWYG editor control.",
             "homepage": "https://www.tiny.cloud/",
@@ -1714,9 +1716,9 @@
                 "wysiwyg"
             ],
             "support": {
-                "source": "https://github.com/tinymce/tinymce-dist/tree/5.10.2"
+                "source": "https://github.com/tinymce/tinymce-dist/tree/6.8.2"
             },
-            "time": "2021-11-17T04:34:27+00:00"
+            "time": "2023-12-11T03:21:56+00:00"
         },
         {
             "name": "yiisoft/yii2",
@@ -6374,5 +6376,5 @@
         "php": ">=5.6.0"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.6.0"
 }
